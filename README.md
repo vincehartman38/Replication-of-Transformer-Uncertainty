@@ -69,15 +69,16 @@ closer to 0 when compared to the median of Novel Bigrams. The XSum dataset for b
 have more more novel bigrams than the CNN / DailyMail dataset. For XSum, the distributions tend to be closer
 to a normal distribuition than the CNN / DailyMail distributions.
 
-![Replication Figure 1 BART CNN](https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/bart-large-cnn_histogram_20220319-170858.jpeg)
-
+Images are listed in order of left to right compared to original one.
 ![Replication Figure 1 PEGASUS CNN](https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/pegasus-cnn_dailymail_histogram_20220319-174830.jpeg)
+
+![Replication Figure 1 BART CNN](https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/bart-large-cnn_histogram_20220319-170858.jpeg)
 
 #### Figure 2 from Original Paper
 ![Original Bigram Prediction Engropy](https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/original_figures/replication_figure2.jpg)
 
 #### Replicated Figures for Entropy for Sentence Position
 
-![Replication Figure 2 BART CNN](https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/bart-large-cnn_boxplot_20220319-170924.jpeg)
-
 ![Replication Figure 2 PEGASUS CNN](https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/pegasus-cnn_dailymail_boxplot_20220319-174851.jpeg)
+
+![Replication Figure 2 BART CNN](https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/bart-large-cnn_boxplot_20220319-170924.jpeg)
