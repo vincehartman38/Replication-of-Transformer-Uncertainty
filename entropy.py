@@ -1,6 +1,8 @@
 import argparse
 from typing import List, Tuple, Union
 from itertools import chain
+import numpy as np
+import math
 import torch
 import random
 from transformers import (
@@ -9,7 +11,7 @@ from transformers import (
     PegasusTokenizer,
     PegasusForConditionalGeneration,
 )
-from utils import entropy, nucleus_sampling, create_entropy_histogram
+from utils import entropy, create_bigram_histogram, create_position_boxplot
 from datasets import load_dataset
 from dataset import XSumDataset, CNNDataset
 
@@ -45,7 +47,8 @@ def generate_entropies(
     model: Union[BartForConditionalGeneration, PegasusForConditionalGeneration],
     tokenizer: Union[BartTokenizer, PegasusTokenizer],
     docs_to_summarize: List[str],
-    token_entropies: dict,
+    bigram_entropies: dict,
+    position_entropies: dict,
     num_beams: int = 4,
 ):
     """
@@ -59,6 +62,8 @@ def generate_entropies(
         model: model to run inference on
         tokenizer: tokenizer corresponding to model
         docs_to_summarize: documents to summarize
+        bigram_entropies: dictonary of entropies for existing & novel
+        position_entropies: dictoary of entropies for sentence position
         num_beams: number of beams for beam search
 
     Returns:
@@ -72,24 +77,31 @@ def generate_entropies(
         return_tensors="pt",
     )
     input_token_ids = inputs.input_ids.to(device)
-
+    input_bigrams = [b for l in input_token_ids for b in zip(l[:-1], l[1:])]
+    # top_p is nucleus sampling based on Holtzman et al.
     model_output = model.generate(
         input_token_ids,
         num_beams=num_beams,
         return_dict_in_generate=True,
         output_scores=True,
+        top_p=0.95,
     )
     for seq_idx in range(model_output.sequences.shape[0]):
+        previous_token = model_output.sequences[seq_idx][0]
         for idx, output_token_id in enumerate(model_output.sequences[seq_idx][1:]):
+            bigram = (previous_token, output_token_id)
+            previous_token = output_token_id
             beam_idx = model_output.beam_indices[seq_idx][idx]
             selected_beam_probs = torch.exp(model_output.scores[idx][beam_idx])
-            # perform nucleus sampling
-            beam_probs_nucleus = nucleus_sampling(selected_beam_probs)
-            result = entropy(beam_probs_nucleus)
-            if output_token_id in input_token_ids:
-                token_entropies["existing"].append(result)
+            result = entropy(selected_beam_probs)
+            if bigram in input_bigrams:
+                bigram_entropies["existing"].append(result)
             else:
-                token_entropies["novel"].append(result)
+                bigram_entropies["novel"].append(result)
+            # place entropies into dictionary bucket based on position
+            position = idx / len(model_output.sequences[seq_idx])
+            rounded_position = math.floor(position * 10) / 10.0
+            position_entropies[rounded_position].append(result)
 
 
 if __name__ == "__main__":
@@ -114,7 +126,7 @@ if __name__ == "__main__":
         "--steps",
         type=int,
         required=True,
-        help="choose the number of gnerations steps for the model",
+        help="choose the number of generations steps for the model",
     )
 
     args = parser.parse_args()
@@ -129,15 +141,23 @@ if __name__ == "__main__":
 
     data_keys = data.keys
     random.Random(42).shuffle(data_keys)
-    token_entropies = {"existing": [], "novel": []}
+    # Existing Bigram means the bigram just generated occurs in the input document,
+    # while a NovelBigram is an organic model generation.
+    bigram_entropies = {"existing": [], "novel": []}
+    # Prediction entropy values by relative sentence positions.
+    # For example, 0.0 indicates the first 10% of tokens in a sentence, and 0.9 is the last 10% of tokens.
+    position_entropies = {key: [] for key in np.round(np.linspace(0, 0.9, 10), 1)}
     count = 0
     for x in data_keys:
         selected_data = data.data_by_id[x]
         source = [selected_data["document"]]
-        generate_entropies(model, tokenizer, source, token_entropies)
-        count += len(list(chain(*token_entropies.values())))
+        generate_entropies(
+            model, tokenizer, source, bigram_entropies, position_entropies
+        )
+        count = len(list(chain(*bigram_entropies.values())))
         print("Progress: {} tokens completed of {}".format(count, args.steps))
         if count > args.steps:
             print("Completed Entropy Generation Steps")
             break
-    create_entropy_histogram(token_entropies, args.model, count)
+    create_bigram_histogram(bigram_entropies, args.model)
+    create_position_boxplot(position_entropies, args.model)
