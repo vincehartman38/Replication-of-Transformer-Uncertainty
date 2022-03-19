@@ -50,6 +50,7 @@ def generate_entropies(
     bigram_entropies: dict,
     position_entropies: dict,
     num_beams: int = 4,
+    max_length: int = 1024,
 ):
     """
     Given a model and tokenizer,
@@ -69,10 +70,9 @@ def generate_entropies(
     Returns:
         entropy
     """
-
     inputs = tokenizer(
         docs_to_summarize,
-        max_length=1024,
+        max_length=max_length,
         truncation=True,
         return_tensors="pt",
     )
@@ -135,10 +135,11 @@ if __name__ == "__main__":
     if args.model.split("-")[-1] == "xsum":
         data = load_dataset("xsum")
         data = XSumDataset(data["test"])
+        max_length = 512
     else:
         data = load_dataset("ccdv/cnn_dailymail", "3.0.0")
         data = CNNDataset(data["test"])
-
+        max_length = 1024
     data_keys = data.keys
     random.Random(42).shuffle(data_keys)
     # Existing Bigram means the bigram just generated occurs in the input document,
@@ -152,7 +153,12 @@ if __name__ == "__main__":
         selected_data = data.data_by_id[x]
         source = [selected_data["document"]]
         generate_entropies(
-            model, tokenizer, source, bigram_entropies, position_entropies
+            model,
+            tokenizer,
+            source,
+            bigram_entropies,
+            position_entropies,
+            max_length=max_length,
         )
         count = len(list(chain(*bigram_entropies.values())))
         print("Progress: {} tokens completed of {}".format(count, args.steps))
