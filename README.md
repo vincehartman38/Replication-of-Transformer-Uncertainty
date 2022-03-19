@@ -61,7 +61,7 @@ token is located. Both figure 1 and figure 2 are calculated from the same source
 #### Figure 1 from Original Paper
 ![Original Bigram Prediction Engropy](https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/original_figures/replication_figure1.jpg)
 
-#### Replicated Figures
+#### Replicated Figures for Bigram Entropy Extracted/Novel
 
 These results align with the original paper in that existing bigrams have lower entropy actions
 than novel bigrams. In the figures, this is seen by the median entropy for Existing Bigrams being consistently
@@ -72,3 +72,12 @@ to a normal distribuition than the CNN / DailyMail distributions.
 ![Replication Figure 1 BART CNN](https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/bart-large-cnn_histogram_20220319-170858.jpeg)
 
 ![Replication Figure 1 PEGASUS CNN](https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/pegasus-cnn_dailymail_histogram_20220319-174830.jpeg)
+
+#### Figure 2 from Original Paper
+![Original Bigram Prediction Engropy](https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/original_figures/replication_figure2.jpg)
+
+#### Replicated Figures for Entropy for Sentence Position
+
+![Replication Figure 2 BART CNN](https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/bart-large-cnn_boxplot_20220319-170924.jpeg)
+
+![Replication Figure 2 PEGASUS CNN](https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/pegasus-cnn_dailymail_boxplot_20220319-174851.jpeg)
