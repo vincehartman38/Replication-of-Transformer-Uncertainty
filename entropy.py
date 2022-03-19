@@ -86,7 +86,7 @@ def generate_entropies(
             # perform nucleus sampling
             beam_probs_nucleus = nucleus_sampling(selected_beam_probs)
             result = entropy(beam_probs_nucleus)
-            if output_token_id in inputs.input_ids:
+            if output_token_id in input_token_ids:
                 token_entropies["existing"].append(result)
             else:
                 token_entropies["novel"].append(result)
