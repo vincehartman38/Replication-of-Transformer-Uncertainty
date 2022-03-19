@@ -66,7 +66,7 @@ def create_bigram_histogram(data: dict, m_name: str):
     plt.title(m_name.title() + " of " + str(count) + " Generation Steps")
     plt.xlabel("Prediction Entropy")
     plt.ylabel("Count")
-    plt.savefig(results_path + "/" + m_name + "_" + timestr + ".jpeg")
+    plt.savefig(results_path + "/" + m_name + "_hisotgram_" + timestr + ".jpeg")
     plt.show()
     plt.close()
 
@@ -101,6 +101,6 @@ def create_position_boxplot(data: dict, m_name: str):
     plt.title(m_name.title() + " of " + str(count) + " Generation Steps")
     plt.xlabel("Relaive Position")
     plt.ylabel("Entropy")
-    plt.savefig(results_path + "/" + m_name + "_" + timestr + ".jpeg")
+    plt.savefig(results_path + "/" + m_name + "_boxplot_" + timestr + ".jpeg")
     plt.show()
     plt.close()
