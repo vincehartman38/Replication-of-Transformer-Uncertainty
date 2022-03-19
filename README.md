@@ -69,16 +69,19 @@ closer to 0 when compared to the median of Novel Bigrams. The XSum dataset for b
 have more more novel bigrams than the CNN / DailyMail dataset. For XSum, the distributions tend to be closer
 to a normal distribuition than the CNN / DailyMail distributions.
 
-Images are listed in order of left to right compared to original one.
-![Replication Figure 1 PEGASUS CNN](https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/pegasus-cnn_dailymail_histogram_20220319-174830.jpeg)
+Images are listed in order of left to right compared to original one.  
 
-![Replication Figure 1 BART CNN](https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/bart-large-cnn_histogram_20220319-170858.jpeg)
+DATASET | PEGASUS | BART 
+:-------------------------:|:-------------------------:| :-------------------------:
+CNN/DM | <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/pegasus-cnn_dailymail_histogram_20220319-174830.jpeg" width=500 alt="Replication Figure 1 PEGASUS CNN"> | <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/bart-large-cnn_histogram_20220319-170858.jpeg" width=500 alt="Replication Figure 1 BART CNN">
+XSum | <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/pegasus-cnn_dailymail_histogram_20220319-174830.jpeg" width=500 alt="Replication Figure 1 PEGASUS CNN">  |  <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/bart-large-cnn_histogram_20220319-170858.jpeg" width=500 alt="Replication Figure 1 BART CNN">
 
 #### Figure 2 from Original Paper
 ![Original Bigram Prediction Engropy](https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/original_figures/replication_figure2.jpg)
 
 #### Replicated Figures for Entropy for Sentence Position
 
-![Replication Figure 2 PEGASUS CNN](https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/pegasus-cnn_dailymail_boxplot_20220319-174851.jpeg)
-
-![Replication Figure 2 BART CNN](https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/bart-large-cnn_boxplot_20220319-170924.jpeg)
+DATASET | PEGASUS | BART 
+:-------------------------:|:-------------------------:| :-------------------------:
+CNN/DM | <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/pegasus-cnn_dailymail_boxplot_20220319-174851.jpeg" width=500 alt="Replication Figure 2 PEGASUS CNN"> |<img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/bart-large-cnn_boxplot_20220319-170924.jpeg" width=500 alt="Replication Figure 2 BART CNN">
+XSum | <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/pegasus-cnn_dailymail_boxplot_20220319-174851.jpeg" width=500 alt="Replication Figure 2 PEGASUS CNN"> |<img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/bart-large-cnn_boxplot_20220319-170924.jpeg" width=500 alt="Replication Figure 2 BART CNN">
