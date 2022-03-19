@@ -59,6 +59,7 @@ For the second figure, I create 10 buckets from 0.0 to 0.9 to indicate what part
 token is located. Both figure 1 and figure 2 are calculated from the same source documents.
 
 #### Figure 1 from Original Paper
+![Original Bigram Prediction Engropy](https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/original_figures/replication_figure1.jpg)
 
 #### Replicated Figures
 
@@ -67,3 +68,7 @@ than novel bigrams. In the figures, this is seen by the median entropy for Exist
 closer to 0 when compared to the median of Novel Bigrams. The XSum dataset for both PEGASUS and BART
 have more more novel bigrams than the CNN / DailyMail dataset. For XSum, the distributions tend to be closer
 to a normal distribuition than the CNN / DailyMail distributions.
+
+![Replication Figure 1 BART CNN](https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/bart-large-cnn_histogram_20220319-170858.jpeg)
+
+![Replication Figure 1 PEGASUS CNN](https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/pegasus-cnn_dailymail_histogram_20220319-174830.jpeg)
