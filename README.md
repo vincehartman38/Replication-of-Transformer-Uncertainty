@@ -1,5 +1,5 @@
 # Replication of Transformer Uncertainty
-This project replicates the results in the paper "Understanding Neural Abstractive Summarization Models via Uncertainty"
+This project replicates the results in the paper "[Understanding Neural Abstractive Summarization Models via Uncertainty](https://arxiv.org/abs/2010.07882)"
 by Jiacheng Xu, Shrey Desai, and Greg Durrett.
 
 There original code can be found at: [https://github.com/jiacheng-xu/text-sum-uncertainty](https://github.com/jiacheng-xu/text-sum-uncertainty)

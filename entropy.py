@@ -1,36 +1,19 @@
 import argparse
 from typing import List, Tuple, Union
+from itertools import chain
 import torch
-from torch.utils.data import Dataset, DataLoader
 import random
-import transformers
 from transformers import (
     BartTokenizer,
     BartForConditionalGeneration,
     PegasusTokenizer,
     PegasusForConditionalGeneration,
 )
-import datasets
+from utils import entropy, nucleus_sampling, create_entropy_histogram
 from datasets import load_dataset
-
 from dataset import XSumDataset, CNNDataset
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
-
-def entropy(p_dist: torch.Tensor) -> float:
-    """ "
-    Calculates Shannon entropy for a probability distribution
-
-    Args:
-        p_dist: probability distribution (torch.Tensor)
-
-    Returns:
-        entropy (float)
-    """
-    # add epsilon because log(0) = nan
-    p_dist = p_dist.view(-1) + 1e-12
-    return -torch.mul(p_dist, p_dist.log()).sum(0).item()
 
 
 def load_summarization_model_and_tokenizer(
@@ -62,6 +45,7 @@ def generate_entropies(
     model: Union[BartForConditionalGeneration, PegasusForConditionalGeneration],
     tokenizer: Union[BartTokenizer, PegasusTokenizer],
     docs_to_summarize: List[str],
+    token_entropies: dict,
     num_beams: int = 4,
 ):
     """
@@ -95,14 +79,17 @@ def generate_entropies(
         return_dict_in_generate=True,
         output_scores=True,
     )
-
-    print(model_output)
     for seq_idx in range(model_output.sequences.shape[0]):
         for idx, output_token_id in enumerate(model_output.sequences[seq_idx][1:]):
             beam_idx = model_output.beam_indices[seq_idx][idx]
             selected_beam_probs = torch.exp(model_output.scores[idx][beam_idx])
-
-            print(output_token_id, entropy(selected_beam_probs))
+            # perform nucleus sampling
+            beam_probs_nucleus = nucleus_sampling(selected_beam_probs)
+            result = entropy(beam_probs_nucleus)
+            if output_token_id in inputs.input_ids:
+                token_entropies["existing"].append(result)
+            else:
+                token_entropies["novel"].append(result)
 
 
 if __name__ == "__main__":
@@ -123,18 +110,34 @@ if __name__ == "__main__":
         help="choose the model",
     )
 
+    parser.add_argument(
+        "--steps",
+        type=int,
+        required=True,
+        help="choose the number of gnerations steps for the model",
+    )
+
     args = parser.parse_args()
 
     model, tokenizer = load_summarization_model_and_tokenizer(args.model)
     if args.model.split("-")[-1] == "xsum":
-        dataset = load_dataset("xsum")
-        data = XSumDataset(dataset["test"])
+        data = load_dataset("xsum")
+        data = XSumDataset(data["test"])
     else:
-        dataset = load_dataset("ccdv/cnn_dailymail", "3.0.0")
-        data = CNNDataset(dataset["test"])
+        data = load_dataset("ccdv/cnn_dailymail", "3.0.0")
+        data = CNNDataset(data["test"])
 
-    random_value = random.choice(list(data))
-    selected_data = [random_value["document"]]
-    # print(selected_data)
-
-    generate_entropies(model, tokenizer, selected_data)
+    data_keys = data.keys
+    random.Random(42).shuffle(data_keys)
+    token_entropies = {"existing": [], "novel": []}
+    count = 0
+    for x in data_keys:
+        selected_data = data.data_by_id[x]
+        source = [selected_data["document"]]
+        generate_entropies(model, tokenizer, source, token_entropies)
+        count += len(list(chain(*token_entropies.values())))
+        print("Progress: {} tokens completed of {}".format(count, args.steps))
+        if count > args.steps:
+            print("Completed Entropy Generation Steps")
+            break
+    create_entropy_histogram(token_entropies, args.model, count)

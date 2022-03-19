@@ -6,8 +6,9 @@ class XSumDataset(Dataset):
         self.data = data
         self.dataset = list(self._align_data().values())
         self.data_by_id = {x["id"]: x for x in self.dataset}
+        self.keys = list(self.data_by_id.keys())
 
-    def query_by_bbc_id(self, bbc_id):
+    def query_by_id(self, bbc_id):
         if str(bbc_id) in self.data_by_id:
             return self.data_by_id[str(bbc_id)]
         raise ValueError(f"no article for bbc_id: {bbc_id}")
@@ -46,15 +47,16 @@ class CNNDataset(Dataset):
         self.data = data
         self.dataset = list(self._align_data().values())
         self.data_by_id = {x["id"]: x for x in self.dataset}
+        self.keys = list(self.data_by_id.keys())
 
-    def query_by_bbc_id(self, bbc_id):
+    def query_by_id(self, bbc_id):
         if str(bbc_id) in self.data_by_id:
             return self.data_by_id[str(bbc_id)]
         raise ValueError(f"no article for bbc_id: {bbc_id}")
 
     def _align_data(self):
         """
-        Aligns data in xsum:
+        Aligns data in cnn/dailymail:
 
         Returns:
             dataset:  Dict(id, {
