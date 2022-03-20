@@ -15,9 +15,7 @@ else:
     ssl._create_default_https_context = _create_unverified_https_context
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(
-        description="Script to generate next token entropy"
-    )
+    parser = argparse.ArgumentParser(description="Script to Replicate Figure 3")
 
     parser.add_argument(
         "--model",
@@ -53,6 +51,9 @@ if __name__ == "__main__":
         for s in sents:
             syntactic_tree.append(s._.parse_string)
         syntactic_tree = " ".join(syntactic_tree)
+        linearized_tree = re.sub(r"\b[A-Z]+\b", "", syntactic_tree)
+        linearized_tree = linearized_tree.replace(" ", "")
+        linearized_tree = re.sub(r"\((\w+)\)", r" \1 ", linearized_tree)
         t = value["metadata"]["tokens"]
         e = value["metadata"]["entropy"]
         for i in range(len(t) - 1):
@@ -61,12 +62,12 @@ if __name__ == "__main__":
             t1, t2 = t[i], t[i + 1]
             e_change = get_change(e[i], e[i + 1])
             t1_esc, t2_esc = re.escape(t1), re.escape(t2)
-            m = re.search(t1_esc + "(.*?)" + t2_esc, syntactic_tree)
-            new_start = syntactic_tree.find(t2)
-            syntactic_tree = syntactic_tree[new_start:]
+            m = re.search(t1_esc + "(.*?)" + t2_esc, linearized_tree)
+            new_start = linearized_tree.find(t2)
+            linearized_tree = linearized_tree[new_start:]
             if m:
                 found = m.group(1)
-                tot_parens = max(found.count("("), found.count(")"))
+                tot_parens = found.count("(") + found.count(")")
                 tot_parens = 5 if tot_parens >= 5 else tot_parens
                 syn_distance[tot_parens].append(e_change)
     create_syntactic_boxplot(syn_distance, args.model)
