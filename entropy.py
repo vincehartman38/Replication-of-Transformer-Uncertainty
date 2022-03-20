@@ -1,4 +1,5 @@
 import argparse
+from lib2to3.pgen2.tokenize import TokenError
 from typing import List, Tuple, Union
 from itertools import chain
 import numpy as np
@@ -11,36 +12,13 @@ from transformers import (
     PegasusTokenizer,
     PegasusForConditionalGeneration,
 )
-from utils import entropy, create_bigram_histogram, create_position_boxplot
-from datasets import load_dataset
 from dataset import XSumDataset, CNNDataset
+from utils import entropy, load_model_and_tokenizer
+from figures import create_bigram_histogram, create_position_boxplot
+from datasets import load_dataset
+from storage import store_model_summaries
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
-
-def load_summarization_model_and_tokenizer(
-    m_name: str,
-) -> Tuple[
-    Union[BartForConditionalGeneration, PegasusForConditionalGeneration],
-    Union[BartTokenizer, PegasusTokenizer],
-]:
-    """
-    Load summary generation model and move to GPU, if possible.
-
-    Args:
-        m_name: model name to load tokenizer and model from Hugging Face
-    Returns:
-        (model, tokenizer)
-    """
-    if m_name.split("-")[0] == "pegasus":
-        tokenizer = PegasusTokenizer.from_pretrained("google/" + m_name)
-        model = PegasusForConditionalGeneration.from_pretrained("google/" + m_name)
-    elif m_name.split("-")[0] == "bart":
-        tokenizer = BartTokenizer.from_pretrained("facebook/" + m_name)
-        model = BartForConditionalGeneration.from_pretrained("facebook/" + m_name)
-    model.to(device)
-
-    return model, tokenizer
 
 
 def generate_entropies(
@@ -86,14 +64,33 @@ def generate_entropies(
         output_scores=True,
         top_p=0.95,
     )
+
+    generated_summaries = [
+        tokenizer.decode(
+            id, skip_special_tokens=True, clean_up_tokenization_spaces=False
+        )
+        for id in model_output.sequences
+    ]
+    token_metadata = {
+        "token_ids": [],
+        "tokens": [],
+        "entropy": [],
+        "bigrams": [],
+        "tokens_in_input": [],
+        "bigrams_in_input": [],
+        "sentence_position": [],
+    }
     for seq_idx in range(model_output.sequences.shape[0]):
         previous_token = model_output.sequences[seq_idx][0]
-        for idx, output_token_id in enumerate(model_output.sequences[seq_idx][1:]):
+        for idx, output_token_id in enumerate(model_output.sequences[seq_idx][1:-1]):
             bigram = (previous_token, output_token_id)
             previous_token = output_token_id
             beam_idx = model_output.beam_indices[seq_idx][idx]
             selected_beam_probs = torch.exp(model_output.scores[idx][beam_idx])
             result = entropy(selected_beam_probs)
+            token_metadata["token_ids"].append(output_token_id.item())
+            token_metadata["tokens"].append(tokenizer.decode(output_token_id))
+            token_metadata["entropy"].append(result)
             if bigram in input_bigrams:
                 bigram_entropies["existing"].append(result)
             else:
@@ -102,6 +99,12 @@ def generate_entropies(
             position = idx / len(model_output.sequences[seq_idx])
             rounded_position = math.floor(position * 10) / 10.0
             position_entropies[rounded_position].append(result)
+            token_metadata["bigrams"].append(tuple([x.item() for x in bigram]))
+            token_metadata["tokens_in_input"].append(output_token_id in input_token_ids)
+            token_metadata["bigrams_in_input"].append(bigram in input_bigrams)
+            token_metadata["sentence_position"].append(rounded_position)
+
+    return generated_summaries, token_metadata
 
 
 if __name__ == "__main__":
@@ -131,7 +134,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    model, tokenizer = load_summarization_model_and_tokenizer(args.model)
+    model, tokenizer = load_model_and_tokenizer(args.model)
     if args.model.split("-")[-1] == "xsum":
         data = load_dataset("xsum")
         data = XSumDataset(data["test"])
@@ -151,16 +154,25 @@ if __name__ == "__main__":
     count = 0
     for x in data_keys:
         selected_data = data.data_by_id[x]
-        source = [selected_data["document"]]
-        generate_entropies(
+        source_document = [selected_data["document"]]
+        generated_summary, token_metadata = generate_entropies(
             model,
             tokenizer,
-            source,
+            source_document,
             bigram_entropies,
             position_entropies,
             max_length=max_length,
         )
         count = len(list(chain(*bigram_entropies.values())))
+
+        store_model_summaries(
+            args.model,
+            model.config.name_or_path,
+            model.config.to_dict(),
+            {x: generated_summary},
+            {x: token_metadata},
+        )
+
         print("Progress: {} tokens completed of {}".format(count, args.steps))
         if count > args.steps:
             print("Completed Entropy Generation Steps")

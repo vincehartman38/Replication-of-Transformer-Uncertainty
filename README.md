@@ -9,6 +9,7 @@ Setup (python 3.9.1). Clone the repository and install requirements.
 ```
 git clone
 pip install -r requirements.txt
+python -m spacy download en_core_web_trf
 ```
 
 ## Datasets
@@ -77,7 +78,7 @@ CNN/DM | <img src="https://raw.githubusercontent.com/vincehartman38/Replication-
 XSum | <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/pegasus-xsum_histogram_20220319-191711.jpeg" width=500 alt="Replication Figure 1 PEGASUS XSUM">  |  <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/bart-large-xsum_histogram_20220319-193658.jpeg" width=500 alt="Replication Figure 1 BART XSUM">
 
 #### Figure 2 from Original Paper
-![Original Bigram Prediction Engropy](https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/original_figures/replication_figure2.jpg)
+![Original Bigram Prediction Entropy](https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/original_figures/replication_figure2.jpg)
 
 #### Replicated Figures for Entropy for Sentence Position
 
@@ -85,3 +86,12 @@ DATASET | PEGASUS | BART
 :-------------------------:|:-------------------------:| :-------------------------:
 CNN/DM | <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/pegasus-cnn_dailymail_boxplot_20220319-174851.jpeg" width=500 alt="Replication Figure 2 PEGASUS CNN"> |<img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/bart-large-cnn_boxplot_20220319-170924.jpeg" width=500 alt="Replication Figure 2 BART CNN">
 XSum | <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/pegasus-xsum_boxplot_20220319-191717.jpeg" width=500 alt="Replication Figure 2 PEGASUS XSUM"> |<img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/bart-large-xsum_boxplot_20220319-193712.jpeg" width=500 alt="Replication Figure 2 BART XSUM">
+
+### Entropies of Syntactic Productions
+I used the summaries generated from the first part with the [Berkely Neural Parser](https://github.com/nikitakit/self-attentive-parser)
+and explore the connection between syntax and uncertainty.
+
+#### Figure 3 from Original Paper
+![Original Syntactic Distance](https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/original_figures/replication_figure3.jpg)
+
+#### Replicated Figures for Syntactic Distance
