@@ -20,6 +20,12 @@ from datasets import load_dataset
 load_dataset("xsum")
 load_dataset("cnn_dailymail")
 ```
+The authors use "10K generation steps from PEGASUSCNN/DM, PEGASUSXSUM, BARTCNN/DM and BARTXSUM
+respectively." Based on the graphs and the count, this implies that the authors stop generation
+of the model after 10k output tokens in the summary sequence. The authors did not state if they
+used the train, validation, or test dataset for their paper; I assumed the test dataset. Further,
+the authors did not specify what is the subset of the test dataset; I assume the start at the
+beginning of the test dataset and stop after the reach 10k generation steps.
 
 ## Models
 Experiments use the two models PEGASUS and BART. I use HuggingFace for building these two models.
@@ -78,15 +84,17 @@ Images are listed in order of left to right compared to original one.
 
 DATASET | PEGASUS | BART 
 :-------------------------:|:-------------------------:| :-------------------------:
-CNN/DM | <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/pegasus-cnn_dailymail_histogram.jpeg" width=500 alt="Replication Figure 1 PEGASUS CNN"> | <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/bart-large-cnn_histogram.jpeg" width=500 alt="Replication Figure 1 BART CNN">
-XSum | <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/pegasus-xsum_hisotgram.jpeg" width=500 alt="Replication Figure 1 PEGASUS XSUM">  |  <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/bart-large-xsum_histogram.jpeg" width=500 alt="Replication Figure 1 BART XSUM">
+CNN/DM | <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/pegasus-cnn_dailymail_hisotgram.jpeg" width=500 alt="Replication Figure 1 PEGASUS CNN"> | <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/bart-large-cnn_hisotgram.jpeg" width=500 alt="Replication Figure 1 BART CNN">
+XSum | <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/pegasus-xsum_hisotgram.jpeg" width=500 alt="Replication Figure 1 PEGASUS XSUM">  |  <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/bart-large-xsum_hisotgram.jpeg" width=500 alt="Replication Figure 1 BART XSUM">
 
 #### Figure 2 from Original Paper
 ![Original Bigram Prediction Entropy](https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/original_figures/replication_figure2.jpg)
 
 #### Replicated Figures for Entropy for Sentence Position
-
-
+Simiar to the original paper, the entropy is higher at the beginning of the sentence and decreases
+as the sentence progresses. Likewise, the Pegasus CNN model has very little entropy dispersion at the
+0.9 bucket, which exactly matched the authors original figure. The 0.1 bucket is very distinctly above
+the other buckets, also similar to the original figures.
 
 DATASET | PEGASUS | BART 
 :-------------------------:|:-------------------------:| :-------------------------:
@@ -95,13 +103,34 @@ XSum | <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of
 
 ### Entropies of Syntactic Productions
 I used the summaries generated from the first part with the [Berkely Neural Parser](https://github.com/nikitakit/self-attentive-parser)
-and explore the connection between syntax and uncertainty.
+(Benepar) and explore the connection between syntax and uncertainty. When supplied a summary,
+the parser will create a linearized tree of the output
+
+For example, here is the parser and linearized tree ouput for an XSum summary.
+
+Summary: "Olympic long jump champion Greg Rutherford has qualified for Saturday's final at the World Championships in London."
+
+Benepar: (S (NP (NML (NML (JJ Olympic) (JJ long) (NN jump)) (NN champion)) (NNP Greg) (NNP Rutherford)) (VP (VBZ has) (VP (VBN qualified) (PP (IN for) (NP (NP (NP (NNP Saturday) (POS 's)) (NN final)) (PP (PP (IN at) (NP (DT the) (NNP World) (NNPS Championships))) (PP (IN in) (NP (NNP London)))))))) (. .))
+
+Linearized Tree: (((( Olympic  long  jump ) champion ) Greg  Rutherford )( has ( qualified ( for ((( Saturday ('s)) final )(( at ( the  World  Championships ))( in ( London )))))))(..))
+
+Syntactic Distances would then be the following for this example:
+D(Rutherford, has) = len(")(") = 2
+D(Olympic, long) = len("") = 0
+D(London, .) = (len(")))))))(") = 8 -> placed in 5+ bucket
 
 #### Figure 3 from Original Paper
 ![Original Syntactic Distance](https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/original_figures/replication_figure3.jpg)
 
 #### Replicated Figures for Syntactic Distance
+I was not able to replicate these results. My results did not find a relationship between the
+syntactic distance and entropy. I have verified the underlying code and the calculation
+for syntactic distance and entropy; all calculations are correct. There maybe a few reasons why I was
+unable to replicate these results:
+* My subset of the XSum and CNN/DM datasets might not match the authors.
+* Since the formula for the linearized tree was not provided; my implementation may not match the authors. I emailed the head author
+but he responded he did not design this portion of the experiment. 
 
 CNN/DM | XSum 
-:-------------------------:|:-------------------------:| :-------------------------:
+:-------------------------:| :-------------------------:
 <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/pegasus-cnn_dailymail_syntactic.jpeg" width=500 alt="Replication Figure 3 PEGASUS XSUM"> |<img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/pegasus-xsum_syntactic.jpeg" width=500 alt="Replication Figure 3 Pegasus CNN">
