@@ -4,7 +4,6 @@ from itertools import chain
 import numpy as np
 import math
 import torch
-import random
 from transformers import (
     BartTokenizer,
     BartForConditionalGeneration,
