@@ -62,7 +62,14 @@ def generate_entropies(
         return_dict_in_generate=True,
         output_scores=True,
         top_p=0.95,
+        output_attentions=True,
     )
+    with open("./results/bart-large-cnn_output.txt", "w") as text_file:
+        text_file.write(str(model_output))
+    print(model_output.encoder_attentions[0].shape)
+    print(len(model_output.decoder_attentions[0]))
+    print(len(model_output.decoder_attentions[0][0]))
+    print(model_output.decoder_attentions[0][0].shape)
 
     generated_summaries = [
         tokenizer.decode(
@@ -79,11 +86,14 @@ def generate_entropies(
         "bigrams_in_input": [],
         "sentence_position": [],
     }
+    return
     for seq_idx in range(model_output.sequences.shape[0]):
         previous_token = model_output.sequences[seq_idx][0]
         all_tokens = model_output.sequences[seq_idx][1:-1]
-        # split tokens into sentences. Token 107 is a period
-        indices = [i for i, x in enumerate(all_tokens) if x == 107]
+        # split tokens into sentences. Token 107 is a period for Pegasus
+        # Token is 4 for BART
+        period = 4 if type(model) == BartForConditionalGeneration else 107
+        indices = [i for i, x in enumerate(all_tokens) if x == period]
         init = 0
         for ind in indices:
             sequence = all_tokens[init : ind + 1]
@@ -175,18 +185,20 @@ if __name__ == "__main__":
         )
         count = len(list(chain(*bigram_entropies.values())))
 
-        store_model_summaries(
-            args.model,
-            model.config.name_or_path,
-            model.config.to_dict(),
-            {x: generated_summary},
-            {x: token_metadata},
-        )
+        break
 
-        print("Progress: {} tokens completed of {}".format(count, args.steps))
-        if count > args.steps:
-            print("Completed Entropy Generation Steps")
-            break
+    #     store_model_summaries(
+    #         args.model,
+    #         model.config.name_or_path,
+    #         model.config.to_dict(),
+    #         {x: generated_summary},
+    #         {x: token_metadata},
+    #     )
 
-    create_bigram_histogram(bigram_entropies, args.model)
-    create_position_boxplot(position_entropies, args.model)
+    #     print("Progress: {} tokens completed of {}".format(count, args.steps))
+    #     if count > args.steps:
+    #         print("Completed Entropy Generation Steps")
+    #         break
+
+    # create_bigram_histogram(bigram_entropies, args.model)
+    # create_position_boxplot(position_entropies, args.model)

@@ -78,8 +78,8 @@ Images are listed in order of left to right compared to original one.
 
 DATASET | PEGASUS | BART 
 :-------------------------:|:-------------------------:| :-------------------------:
-CNN/DM | <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/pegasus-cnn_dailymail_histogram_20220319-174830.jpeg" width=500 alt="Replication Figure 1 PEGASUS CNN"> | <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/bart-large-cnn_histogram_20220319-170858.jpeg" width=500 alt="Replication Figure 1 BART CNN">
-XSum | <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/pegasus-xsum_hisotgram_20220319-232155.jpeg" width=500 alt="Replication Figure 1 PEGASUS XSUM">  |  <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/bart-large-xsum_histogram_20220319-193658.jpeg" width=500 alt="Replication Figure 1 BART XSUM">
+CNN/DM | <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/pegasus-cnn_dailymail_histogram.jpeg" width=500 alt="Replication Figure 1 PEGASUS CNN"> | <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/bart-large-cnn_histogram.jpeg" width=500 alt="Replication Figure 1 BART CNN">
+XSum | <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/pegasus-xsum_hisotgram.jpeg" width=500 alt="Replication Figure 1 PEGASUS XSUM">  |  <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/bart-large-xsum_histogram.jpeg" width=500 alt="Replication Figure 1 BART XSUM">
 
 #### Figure 2 from Original Paper
 ![Original Bigram Prediction Entropy](https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/original_figures/replication_figure2.jpg)
@@ -90,8 +90,8 @@ XSum | <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of
 
 DATASET | PEGASUS | BART 
 :-------------------------:|:-------------------------:| :-------------------------:
-CNN/DM | <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/pegasus-cnn_dailymail_boxplot_20220319-174851.jpeg" width=500 alt="Replication Figure 2 PEGASUS CNN"> |<img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/bart-large-cnn_boxplot_20220319-170924.jpeg" width=500 alt="Replication Figure 2 BART CNN">
-XSum | <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/pegasus-xsum_boxplot_20220319-232201.jpeg" width=500 alt="Replication Figure 2 PEGASUS XSUM"> |<img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/bart-large-xsum_boxplot_20220319-193712.jpeg" width=500 alt="Replication Figure 2 BART XSUM">
+CNN/DM | <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/pegasus-cnn_dailymail_boxplot.jpeg" width=500 alt="Replication Figure 2 PEGASUS CNN"> |<img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/bart-large-cnn_boxplot.jpeg" width=500 alt="Replication Figure 2 BART CNN">
+XSum | <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/pegasus-xsum_boxplot.jpeg" width=500 alt="Replication Figure 2 PEGASUS XSUM"> |<img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/bart-large-xsum_boxplot.jpeg" width=500 alt="Replication Figure 2 BART XSUM">
 
 ### Entropies of Syntactic Productions
 I used the summaries generated from the first part with the [Berkely Neural Parser](https://github.com/nikitakit/self-attentive-parser)
@@ -104,4 +104,4 @@ and explore the connection between syntax and uncertainty.
 
 CNN/DM | XSum 
 :-------------------------:|:-------------------------:| :-------------------------:
-<img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/pegasus-cnn_dailymail_syntactic_20220320-103510.jpeg" width=500 alt="Replication Figure 3 PEGASUS XSUM"> |<img src=""https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/pegasus-xsum_syntactic_20220320-104346.jpeg" width=500 alt="Replication Figure 3 Pegasus CNN">
+<img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/pegasus-cnn_dailymail_syntactic.jpeg" width=500 alt="Replication Figure 3 PEGASUS XSUM"> |<img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/pegasus-xsum_syntactic.jpeg" width=500 alt="Replication Figure 3 Pegasus CNN">
