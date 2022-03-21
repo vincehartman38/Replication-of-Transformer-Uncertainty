@@ -114,10 +114,10 @@ Benepar: (S (NP (NML (NML (JJ Olympic) (JJ long) (NN jump)) (NN champion)) (NNP 
 
 Linearized Tree: (((( Olympic  long  jump ) champion ) Greg  Rutherford )( has ( qualified ( for ((( Saturday ('s)) final )(( at ( the  World  Championships ))( in ( London )))))))(..))
 
-Syntactic Distances would then be the following for this example:
-D(Rutherford, has) = len(")(") = 2
-D(Olympic, long) = len("") = 0
-D(London, .) = (len(")))))))(") = 8 -> placed in 5+ bucket
+Syntactic Distances would then be the following for this example:  
+D(Rutherford, has) = len(")(") = 2  
+D(Olympic, long) = len("") = 0  
+D(London, .) = (len(")))))))(") = 8 -> placed in 5+ bucket  
 
 #### Figure 3 from Original Paper
 ![Original Syntactic Distance](https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/original_figures/replication_figure3.jpg)
