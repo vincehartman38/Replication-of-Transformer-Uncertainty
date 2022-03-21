@@ -28,7 +28,8 @@ the authors did not specify what is the subset of the test dataset; I assume the
 beginning of the test dataset and stop after the reach 10k generation steps.
 
 ## Models
-Experiments use the two models PEGASUS and BART. I use HuggingFace for building these two models.
+Experiments use the two models PEGASUS and BART. I use HuggingFace for building these two models
+trained with two datasets (4 total):
 1. [PEGASUS CNN Dailymail](https://huggingface.co/google/pegasus-cnn_dailymail)
 2. [PEGASUS XSum](https://huggingface.co/google/pegasus-xsum)
 3. [BART Large CNN](https://huggingface.co/facebook/bart-large-cnn)
