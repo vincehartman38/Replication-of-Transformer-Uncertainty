@@ -123,8 +123,9 @@ syntactic distance and entropy. I have verified the underlying code and the calc
 for syntactic distance and entropy; all calculations are correct. There maybe a few reasons why I was
 unable to replicate these results:
 * My subset of the XSum and CNN/DM datasets might not match the authors.
-* Since the formula for the linearized tree was not provided; my implementation may not match the authors. I emailed the head author
-but he responded he did not design this portion of the experiment. 
+* Since the formula for the linearized tree was not provided; my implementation may not match the authors.
+I emailed the head author, Jiacheng Xu, and he responded that Shrey Desai worked on this portion and he
+will be gettin back to me.
 
 CNN/DM | XSum 
 :-------------------------:| :-------------------------:
