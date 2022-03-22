@@ -6,6 +6,7 @@ from transformers import (
     PegasusTokenizer,
     PegasusForConditionalGeneration,
 )
+import math
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -36,7 +37,7 @@ def load_model_and_tokenizer(
 
 
 def entropy(p_dist: torch.Tensor) -> float:
-    """ "
+    """
     Calculates Shannon entropy for a probability distribution
 
     Args:
@@ -51,7 +52,7 @@ def entropy(p_dist: torch.Tensor) -> float:
 
 
 def get_change(current, previous):
-    """ "
+    """
     Returns percent change between two numbers
 
     Args:
@@ -67,3 +68,24 @@ def get_change(current, previous):
         return (current - previous) / previous * 100.0
     except ZeroDivisionError:
         return 0
+
+
+def mean_attention(attentions: torch.Tensor, loc: int, beam_idx: int) -> float:
+    """
+    Calculates the mean cross attention
+
+    Args:
+        attentions: Tensor of shape (output_token, layer, beam_idx, head, 1, sequence)
+        loc: current token (int)
+        beam_idx: beam id (int)
+
+    Returns:
+        attention mean: mean value of all cross attentions (float)
+    """
+    selected_attention = attentions[loc, :, beam_idx, :, :, :]
+    layers, heads, _, _ = selected_attention.shape
+    entropies = []
+    for ly, hd in zip(range(layers), range(heads)):
+        entropies.append(entropy(selected_attention[ly, hd, :, :]))
+    attention_mean = math.fsum(entropies) / len(entropies)
+    return attention_mean
