@@ -118,7 +118,7 @@ CNN/DM | XSum
 <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/pegasus-cnn_dailymail_syntactic.jpeg" width=300 alt="Replication Figure 3 PEGASUS XSUM"> |<img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/pegasus-xsum_syntactic.jpeg" width=300 alt="Replication Figure 3 Pegasus CNN">
 
 I was not able to replicate these results as my results did not find a relationship between the syntactic distance and entropy. I have verified the underlying code and the calculation for syntactic distance and entropy; all calculations are correct. There maybe a few reasons why I was unable to replicate these results:
-* My subset of the XSum and CNN/DM datasets might not match the authors.
+* My subset of the XSum and CNN/DM datasets might not match the authors. The original results may have just been noise, and when a slightly new subset of the XSum and CNN/DM datasets are used, there is in fact no replicated relationship between sentence syntax and entropy change.
 * Since the formula for the linearized tree was not provided; my implementation may not match the authors.
 I emailed the head author, Jiacheng Xu, and he responded that Shrey Desai worked on this portion and he will be gettin back to me.
 
