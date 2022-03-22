@@ -3,6 +3,8 @@ This project replicates the results in the paper "[Understanding Neural Abstract
 
 There original code can be found at: [https://github.com/jiacheng-xu/text-sum-uncertainty](https://github.com/jiacheng-xu/text-sum-uncertainty)
 
+Their slidedeck is here: [https://github.com/jiacheng-xu/text-sum-uncertainty/blob/master/slide.pdf](https://github.com/jiacheng-xu/text-sum-uncertainty/blob/master/slide.pdf)
+
 ## Setup
 Setup (python 3.9.1). Clone the repository and install requirements.
 ```
