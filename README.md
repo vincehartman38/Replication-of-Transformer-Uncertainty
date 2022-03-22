@@ -60,7 +60,7 @@ model_output = model.generate(
     )
 ```
 output_scores:
-top_p: nucleus sampling in HuggingFace.
+top_p: nucleus sampling in HuggingFace.  
 output_attentions: returns attentions of all layers
 
 # Results
