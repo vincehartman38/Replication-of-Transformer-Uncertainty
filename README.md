@@ -70,7 +70,7 @@ For the first figure, I separate the output bigrams into two buckets: (1) if the
 For this replication, I calculate the position of the output token with respect to a summary sentence. Note that there might be multiple sentences for a summary. I create 10 buckets from 0.0 to 0.9 to indicate what part of the sentence the token is located (where 0.0 is within the first 10% of the source and 0.9 is the last 10% of the source). Figure 2 is calculated from the same source documents as Figure 1.
 
 #### Figure 1 from Original Paper
-![Original Bigram Prediction Engropy](https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/original_figures/replication_figure1.jpg)
+<img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/original_figures/replication_figure1.jpg" width=500 alt="Original Bigram Prediction Entropy">
 
 #### Replicated Figures for Bigram Entropy Extracted/Novel
 
@@ -80,19 +80,19 @@ Images are listed in order of left to right compared to original one.
 
 DATASET | PEGASUS | BART 
 :-------------------------:|:-------------------------:| :-------------------------:
-CNN/DM | <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/pegasus-cnn_dailymail_hisotgram.jpeg" width=500 alt="Replication Figure 1 PEGASUS CNN"> | <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/bart-large-cnn_hisotgram.jpeg" width=500 alt="Replication Figure 1 BART CNN">
-XSum | <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/pegasus-xsum_hisotgram.jpeg" width=500 alt="Replication Figure 1 PEGASUS XSUM">  |  <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/bart-large-xsum_hisotgram.jpeg" width=500 alt="Replication Figure 1 BART XSUM">
+CNN/DM | <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/pegasus-cnn_dailymail_hisotgram.jpeg" width=250 alt="Replication Figure 1 PEGASUS CNN"> | <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/bart-large-cnn_hisotgram.jpeg" width=250 alt="Replication Figure 1 BART CNN">
+XSum | <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/pegasus-xsum_hisotgram.jpeg" width=250 alt="Replication Figure 1 PEGASUS XSUM">  |  <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/bart-large-xsum_hisotgram.jpeg" width=250 alt="Replication Figure 1 BART XSUM">
 
 #### Figure 2 from Original Paper
-![Original Bigram Prediction Entropy](https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/original_figures/replication_figure2.jpg)
+<img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/original_figures/replication_figure2.jpg" width=500 alt="Original Sentence Position Entropy">
 
 #### Replicated Figures for Entropy for Sentence Position
 Simiar to the original paper, the entropy is higher at the beginning of the sentence and decreases as the sentence progresses. Likewise, the Pegasus CNN model has very little entropy dispersion at the 0.9 bucket, which exactly matched the authors original figure. The 0.1 bucket is very distinctly above the other buckets, also similar to the original figures.
 
 DATASET | PEGASUS | BART 
 :-------------------------:|:-------------------------:| :-------------------------:
-CNN/DM | <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/pegasus-cnn_dailymail_boxplot.jpeg" width=500 alt="Replication Figure 2 PEGASUS CNN"> |<img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/bart-large-cnn_boxplot.jpeg" width=500 alt="Replication Figure 2 BART CNN">
-XSum | <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/pegasus-xsum_boxplot.jpeg" width=500 alt="Replication Figure 2 PEGASUS XSUM"> |<img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/bart-large-xsum_boxplot.jpeg" width=500 alt="Replication Figure 2 BART XSUM">
+CNN/DM | <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/pegasus-cnn_dailymail_boxplot.jpeg" width=250 alt="Replication Figure 2 PEGASUS CNN"> |<img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/bart-large-cnn_boxplot.jpeg" width=250 alt="Replication Figure 2 BART CNN">
+XSum | <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/pegasus-xsum_boxplot.jpeg" width=250 alt="Replication Figure 2 PEGASUS XSUM"> |<img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/bart-large-xsum_boxplot.jpeg" width=250 alt="Replication Figure 2 BART XSUM">
 
 ### Entropies of Syntactic Productions
 I used the summaries generated from the first part with the [Berkely Neural Parser](https://github.com/nikitakit/self-attentive-parser) (Benepar) and explore the connection between syntax and uncertainty. The authors graph this correlation in a vertical box-plot in Figure 3.
@@ -111,7 +111,7 @@ D(Olympic, long) = len("") = 0
 D(London, .) = (len(")))))))(") = 8 -> placed in 5+ bucket  
 
 #### Figure 3 from Original Paper
-![Original Syntactic Distance](https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/original_figures/replication_figure3.jpg)
+<img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/original_figures/replication_figure3.jpg" width=500 alt="Original Syntactic Distance">
 
 #### Replicated Figures for Syntactic Distance
 I was not able to replicate these results. My results did not find a relationship between the syntactic distance and entropy. I have verified the underlying code and the calculation for syntactic distance and entropy; all calculations are correct. There maybe a few reasons why I was unable to replicate these results:
@@ -121,7 +121,7 @@ I emailed the head author, Jiacheng Xu, and he responded that Shrey Desai worked
 
 CNN/DM | XSum 
 :-------------------------:| :-------------------------:
-<img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/pegasus-cnn_dailymail_syntactic.jpeg" width=500 alt="Replication Figure 3 PEGASUS XSUM"> |<img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/pegasus-xsum_syntactic.jpeg" width=500 alt="Replication Figure 3 Pegasus CNN">
+<img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/pegasus-cnn_dailymail_syntactic.jpeg" width=300 alt="Replication Figure 3 PEGASUS XSUM"> |<img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/pegasus-xsum_syntactic.jpeg" width=300 alt="Replication Figure 3 Pegasus CNN">
 
 ### Attention Entropy
 The authors explored if there is a relationship between the entropy in the encoder and the prediction entropy from the decoder. The goal is to see how an encoder places attention during generation and if it correlates with prediction.
@@ -129,9 +129,9 @@ The authors explored if there is a relationship between the entropy in the encod
 They computed the mean value of the attention entropy within each bucket of prediction entropy in Figure 4.
 
 #### Figure 4 from Original Paper
-![Original Attention Entropy](https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/original_figures/replication_figure4.jpg)
+<img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/original_figures/replication_figure4.jpg" width=500 alt="Original Attention Entropy">
 
 #### Replicated Figure for Attention Entropy and Prediction Entropy
 For my replication, my results are comparable to the authors. Similar to the authors, when the prediction entropy is around 2, the attention entropy has saturated except for the BART CNN/DM model. For my replication, I did not implement their tf-idf proposed method to discard the 5% of the tokens from the source ocument with the attention values of tokens with the highest f score. The authors proposed method for reducing the low-information tokens does not appear to have been impactful.
 
-<img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/pegasus-cnn_dailymail_syntactic.jpeg" width=500 alt="Replication Figure 3 PEGASUS XSUM"> |<img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/attention_and_entropy.jpeg" width=500 alt="Replication Figure 3 Pegasus CNN">
+<img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/attention_and_entropy.jpeg" width=500 alt="Replication Figure 3 Pegasus CNN">
