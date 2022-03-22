@@ -8,7 +8,7 @@ Their slidedeck is here: [https://github.com/jiacheng-xu/text-sum-uncertainty/bl
 ## Setup
 Setup (python 3.9.1). Clone the repository and install requirements.
 ```
-git clone
+git clone https://github.com/vincehartman38/Replication-of-Transformer-Uncertainty.git
 pip install -r requirements.txt
 python -m spacy download en_core_web_trf
 ```
