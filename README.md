@@ -75,31 +75,28 @@ For this replication, I calculate the position of the output token with respect 
 <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/original_figures/replication_figure1.jpg" width=500 alt="Original Bigram Prediction Entropy">
 
 #### Replicated Figures for Bigram Entropy Extracted/Novel
-
-These results align with the original paper in that existing bigrams have lower entropy actions than novel bigrams. In the figures, median entropy for Existing Bigrams is consistently closer to 0  when compared to the median of Novel Bigrams (the Existing Bigram median is always to the left of the Novel Bigram median). The XSum dataset for both PEGASUS and BART have more more novel bigrams than the  CNN / DailyMail dataset; these models perform more copying. The XSum datasets erform more generation. For XSum, the distributions tend to be closer to a normal distribuition than the CNN / DailyMail distributions.
-
-Images are listed in order of left to right compared to original one.  
-
 DATASET | PEGASUS | BART 
 :-------------------------:|:-------------------------:| :-------------------------:
 CNN/DM | <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/pegasus-cnn_dailymail_hisotgram.jpeg" width=250 alt="Replication Figure 1 PEGASUS CNN"> | <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/bart-large-cnn_hisotgram.jpeg" width=250 alt="Replication Figure 1 BART CNN">
 XSum | <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/pegasus-xsum_hisotgram.jpeg" width=250 alt="Replication Figure 1 PEGASUS XSUM">  |  <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/bart-large-xsum_hisotgram.jpeg" width=250 alt="Replication Figure 1 BART XSUM">
 
+These results align with the original paper in that existing bigrams have lower entropy actions than novel bigrams. In the figures, median entropy for Existing Bigrams is consistently closer to 0  when compared to the median of Novel Bigrams (the Existing Bigram median is always to the left of the Novel Bigram median). The XSum dataset for both PEGASUS and BART have more more novel bigrams than the  CNN / DailyMail dataset; these models perform more copying. The XSum datasets erform more generation. For XSum, the distributions tend to be closer to a normal distribuition than the CNN / DailyMail distributions.
+
 #### Figure 2 from Original Paper
 <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/original_figures/replication_figure2.jpg" width=500 alt="Original Sentence Position Entropy">
 
 #### Replicated Figures for Entropy for Sentence Position
-Simiar to the original paper, the entropy is higher at the beginning of the sentence and decreases as the sentence progresses. Likewise, the Pegasus CNN model has very little entropy dispersion at the 0.9 bucket, which exactly matched the authors original figure. The 0.1 bucket is very distinctly above the other buckets, also similar to the original figures.
-
 DATASET | PEGASUS | BART 
 :-------------------------:|:-------------------------:| :-------------------------:
 CNN/DM | <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/pegasus-cnn_dailymail_boxplot.jpeg" width=250 alt="Replication Figure 2 PEGASUS CNN"> |<img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/bart-large-cnn_boxplot.jpeg" width=250 alt="Replication Figure 2 BART CNN">
 XSum | <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/pegasus-xsum_boxplot.jpeg" width=250 alt="Replication Figure 2 PEGASUS XSUM"> |<img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/bart-large-xsum_boxplot.jpeg" width=250 alt="Replication Figure 2 BART XSUM">
 
-### Entropies of Syntactic Productions
-I used the summaries generated from the first part with the [Berkely Neural Parser](https://github.com/nikitakit/self-attentive-parser) (Benepar) and explore the connection between syntax and uncertainty. The authors graph this correlation in a vertical box-plot in Figure 3.
+Simiar to the original paper, the entropy is higher at the beginning of the sentence and decreases as the sentence progresses. Likewise, the Pegasus CNN model has very little entropy dispersion at the 0.9 bucket, which exactly matched the authors original figure. The 0.1 bucket is very distinctly above the other buckets, also similar to the original figures.
 
-When supplied a summary, the parser will create a linearized tree of the output. For example, here is the parser and linearized tree ouput for an XSum summary.
+### Entropies of Syntactic Productions
+I used the summaries generated from the first part with the [Berkely Neural Parser](https://github.com/nikitakit/self-attentive-parser) (Benepar) and explore the connection between syntax and uncertainty. The authors graph this correlation this in a vertical box-plot in Figure 3. The creation of the Linearized Tree from Benepar is created from referencing the authors PDF slides (not specifically stated in their paper).
+
+For example, here is the parser and linearized tree ouput for an XSum summary.
 
 Summary: "Olympic long jump champion Greg Rutherford has qualified for Saturday's final at the World Championships in London."
 
@@ -107,7 +104,7 @@ Benepar: (S (NP (NML (NML (JJ Olympic) (JJ long) (NN jump)) (NN champion)) (NNP 
 
 Linearized Tree: (((( Olympic  long  jump ) champion ) Greg  Rutherford )( has ( qualified ( for ((( Saturday ('s)) final )(( at ( the  World  Championships ))( in ( London )))))))(..))
 
-Syntactic Distances would then be the following for this example:  
+Syntactic Distances would then be the following for this example according to the author's definition in their paper:  
 D(Rutherford, has) = len(")(") = 2  
 D(Olympic, long) = len("") = 0  
 D(London, .) = (len(")))))))(") = 8 -> placed in 5+ bucket  
@@ -116,14 +113,14 @@ D(London, .) = (len(")))))))(") = 8 -> placed in 5+ bucket
 <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/original_figures/replication_figure3.jpg" width=500 alt="Original Syntactic Distance">
 
 #### Replicated Figures for Syntactic Distance
-I was not able to replicate these results. My results did not find a relationship between the syntactic distance and entropy. I have verified the underlying code and the calculation for syntactic distance and entropy; all calculations are correct. There maybe a few reasons why I was unable to replicate these results:
-* My subset of the XSum and CNN/DM datasets might not match the authors.
-* Since the formula for the linearized tree was not provided; my implementation may not match the authors.
-I emailed the head author, Jiacheng Xu, and he responded that Shrey Desai worked on this portion and he will be gettin back to me.
-
 CNN/DM | XSum 
 :-------------------------:| :-------------------------:
 <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/pegasus-cnn_dailymail_syntactic.jpeg" width=300 alt="Replication Figure 3 PEGASUS XSUM"> |<img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/pegasus-xsum_syntactic.jpeg" width=300 alt="Replication Figure 3 Pegasus CNN">
+
+I was not able to replicate these results as my results did not find a relationship between the syntactic distance and entropy. I have verified the underlying code and the calculation for syntactic distance and entropy; all calculations are correct. There maybe a few reasons why I was unable to replicate these results:
+* My subset of the XSum and CNN/DM datasets might not match the authors.
+* Since the formula for the linearized tree was not provided; my implementation may not match the authors.
+I emailed the head author, Jiacheng Xu, and he responded that Shrey Desai worked on this portion and he will be gettin back to me.
 
 ### Attention Entropy
 The authors explored if there is a relationship between the entropy in the encoder and the prediction entropy from the decoder. The goal is to see how an encoder places attention during generation and if it correlates with prediction.
@@ -134,6 +131,5 @@ They computed the mean value of the attention entropy within each bucket of pred
 <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/original_figures/replication_figure4.jpg" width=500 alt="Original Attention Entropy">
 
 #### Replicated Figure for Attention Entropy and Prediction Entropy
-For my replication, my results are comparable to the authors. Similar to the authors, when the prediction entropy is around 2, the attention entropy has saturated except for the BART CNN/DM model. For my replication, I did not implement their tf-idf proposed method to discard the 5% of the tokens from the source ocument with the attention values of tokens with the highest f score. The authors proposed method for reducing the low-information tokens does not appear to have been impactful.
-
 <img src="https://raw.githubusercontent.com/vincehartman38/Replication-of-Transformer-Uncertainty/main/results/attention_and_entropy.jpeg" width=500 alt="Replication Figure 3 Pegasus CNN">
+For my replication, my results are comparable to the authors. I use the cross attention matrix and find the mean across all layers and heads for each token in the output summary. Similar to the authors, when the prediction entropy is around 2, the attention entropy has saturated except for the BART CNN/DM model. For my replication, I did not implement their tf-idf proposed method to discard the 5% of the tokens from the source ocument with the attention values of tokens with the highest f score. The authors proposed method for reducing the low-information tokens does not appear to have been impactful.
