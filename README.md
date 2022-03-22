@@ -5,6 +5,14 @@ There original code can be found at: [https://github.com/jiacheng-xu/text-sum-un
 
 Their slidedeck is here: [https://github.com/jiacheng-xu/text-sum-uncertainty/blob/master/slide.pdf](https://github.com/jiacheng-xu/text-sum-uncertainty/blob/master/slide.pdf)
 
+The author's original paper explores the relationship of entropy, or uncertainty, from summarization encoder-decoder models with different corresponding metrics: if the output tokents are novel or extracted from the source text, the sentence position of the output source token, and the relationship with the attention entropy. Through understanding how transformers perform generation and lead to the predicted entropy, we can analyze and design approaches to inform users about the nature of that uncertainty to create a more explainable system.
+
+This replication paper is broken into an analysis of four result section graphs:
+1. Output token entropy compared to if the token originated from the source text or not
+2. Output token entropy compared to the sentence position
+3. Output token entropy change compared to syntactic distance beteen tokens
+4. Output token entorpy compared to the underlying attention entropy
+
 ## Setup
 Setup (python 3.9.1). Clone the repository and install requirements.
 ```
@@ -30,6 +38,8 @@ Run scripts in this order to reproduce my results:
 11. ```python cross_attention.py```
 
 # Method
+To replicate this paper, I (1) collected the datasets from Huggingface, (2) loaded the four models from HuggingFace, (3) generated the underlying entropy metadata necessary for all the graphing results, and (4) designed the graphs to match as exactly as possible in Matplotlib based on the published paper.
+
 ## Datasets
 Datasets are loaded from HuggingFace with the following commands:
 ```
